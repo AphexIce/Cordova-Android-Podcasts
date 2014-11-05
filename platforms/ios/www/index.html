@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+<title>TRAKS</title>
+<link rel="stylesheet" href="css/bbtransitions.css" />
+<link rel="stylesheet" href="css/mystyles.css" />
+<script type="text/javascript" src="cordova.js"></script>
+<script type="text/javascript" src="js/soundanimation.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
+<script type="text/javascript" src="js/myscript.js"></script>
+<!--<script type="text/javascript" src="js/myscript2.js"></script>-->
+
+</head>
+<body>
+<div id="header">
+  <div class="headerButtons leftHeaderButton" data-page="1" style="display:none;float:left;"> <img id="leftHeaderImg" alt="go back" src="img/arrow-back-red.png" /> </div>
+  <h1 id="headerTitle">TRAKS</h1>
+  <div class="headerButtons rightHeaderButton" data-page="0">
+    <div class="nowPlaying"> <span>now</span> <span>playing</span> </div>
+    <img id="rightHeaderImg" alt="go forward" src="img/arrow-forward-red1.png" /> </div>
+    <progress max="100" value="50"></progress>
+</div>
+<div id="wrapper">
+  <div data-role="page" id="home">
+    <ul>
+      <li>HOME 1</li>
+      <li>Pretty row 2</li>
+      <li>Pretty row 3</li>
+      <li>Pretty row 4</li>
+      <li>Pretty row 5</li>
+      <li>Pretty row 6</li>
+      <li>Pretty row 7</li>
+      <li>Pretty row 8</li>
+      <li>Pretty row 9</li>
+      <li>Pretty row 10</li>
+      <li>Pretty row 11</li>
+      <li>Pretty row 12</li>
+      <li>Pretty row 13</li>
+      <li>Pretty row 14</li>
+      <li>Pretty row 15</li>
+      <li>Pretty row 16</li>
+      <li>Pretty row 17</li>
+      <li>Pretty row 18</li>
+      <li>Pretty row 19</li>
+      <li>Pretty row 20</li>
+      <li>Pretty row 21</li>
+      <li>Pretty row 22</li>
+      <li>Pretty row 23</li>
+      <li>Pretty row 24</li>
+      <li>Pretty row 25</li>
+      <li>Pretty row 26</li>
+      <li>Pretty row 27</li>
+      <li>Pretty row 28</li>
+      <li>Pretty row 29</li>
+      <li>Pretty row 30</li>
+      <li>Pretty row 31</li>
+      <li>Pretty row 32</li>
+      <li>Pretty row 33</li>
+      <li>Pretty row 34</li>
+      <li>Pretty row 35</li>
+      <li>Pretty row 36</li>
+      <li>Pretty row 37</li>
+      <li>Pretty row 38</li>
+      <li>Pretty row 39</li>
+      <li>Pretty row 40</li>
+      <li>Pretty row 41</li>
+      <li>Pretty row 42</li>
+      <li>Pretty row 43</li>
+      <li>Pretty row 44</li>
+      <li>Pretty row 45</li>
+      <li>Pretty row 46</li>
+      <li>Pretty row 47</li>
+      <li>Pretty row 48</li>
+      <li>Pretty row 49</li>
+      <li>Pretty row 50</li>
+    </ul>
+  </div>
+  <div data-role="page" id="playing" class="noCanvas" style="display:none;">
+    <canvas id="musicCanvas"></canvas>
+    <div class="songContainer">
+      <div class="songTime"> <span class="songStart">0:00</span>
+        <input type=range min=0 value=0 id=fader step=1>
+        <span class="songEnd">4:23</span> </div>
+      <div class="songInfo">
+        <h1 class="songTitle">The Miracle (Of Joey Ramone)asdfsdaf fdafsa</h1>
+        <h2 class="songArtist">U2 - Songs of Innocence</h2>
+      </div>
+      <div class="songControls"> <img id="rewind" src="img/backwards.png" /> <img id="playPause" data-play="0" src="img/play.png" /> <img id="forward" src="img/forward.png" /> </div>
+      <div class="songVolume"> <img src="img/volume-down.png" />
+        <input type=range min=0 value=0 id=fader step=1>
+        <img src="img/volume-up.png" /> </div>
+      <div class="songExtras"> <span class="songRepeat">Repeat</span> <span class="songShuffle">Shuffle</span> </div>
+    </div>
+  </div>
+</div>
+<div id="footer">
+  <ul>
+  <li> <a class="footerButtons" href="#"> <span class="tabIcon"> <img data-image="albums" src="img/albums-gray.png" /> </span> <span class="tabLabel">All</span> </a> </li>
+    <li> <a class="footerButtons" href="#"> <span class="tabIcon"> <img data-image="songs" src="img/songs-gray.png" /> </span> <span class="tabLabel">Songs</span> </a> </li> 
+    
+    <li> <a class="footerButtons active" href="#"> <span class="tabIcon"> <img data-image="playlists" src="img/playlists-red.png" /> </span> <span class="tabLabel active">Podcasts</span> </a> </li>
+    
+    <li> <a class="footerButtons" href="#"> <span class="tabIcon"> <img data-image="artists" src="img/artists-gray.png" /> </span> <span class="tabLabel">Search</span> </a> </li> 
+    <li> <a class="footerButtons" href="#"> <span class="tabIcon"> <img data-image="settings" src="img/settings-gray.png" /> </span> <span class="tabLabel">Settings</span> </a> </li>
+  </ul>
+</div>
+</body>
+</html>
