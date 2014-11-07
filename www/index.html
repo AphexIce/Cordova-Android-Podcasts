@@ -1,67 +1,129 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 
-<title>TRAKS</title>
-<link rel="stylesheet" href="css/bbtransitions.css" />
-<link rel="stylesheet" href="css/mystyles.css" />
-<script type="text/javascript" src="cordova.js"></script>
-<script type="text/javascript" src="js/soundanimation.js"></script>
-<script type="text/javascript" src="js/tap.js"></script>
-<script type="text/javascript" src="js/myscript.js"></script>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+
+    <title>TRAKS</title>
+    <link rel="stylesheet" href="css/transitions.min.css" />
+    <link rel="stylesheet" href="css/mystyles.min.css" />
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="js/myscript.js"></script>
 
 </head>
+
 <body>
-<div id="header">
-  <div class="headerButtons leftHeaderButton" data-page="1" style="display:none;float:left;"> <img id="leftHeaderImg" alt="go back" src="img/arrow-back-red.png" /> </div> <div id="ajaxLoader"></div>
-  <h1 id="headerTitle">TRAKS</h1>
-  <div class="headerButtons rightHeaderButton" data-page="0" style="display:none;">
-    <div class="nowPlaying"> <span>now</span> <span>playing</span> </div>
-    <img id="rightHeaderImg" alt="go forward" src="img/arrow-forward-red1.png" /> </div>
-	<div class="headerButtons rightHeaderButton cancelButton" data-page="2" style="display:none;">X</div>
+    <div id="header">
+        <div class="headerButtons leftHeaderButton" data-page="1" style="display:none;float:left;">
+            <img id="leftHeaderImg" alt="go back" src="img/arrow-back-red.png" />
+        </div>
+        <div id="noInternet"></div>
+        <div id="ajaxLoader"></div>
+        <h1 id="headerTitle">TRAKS</h1>
+        <div class="headerButtons rightHeaderButton" data-page="0" style="display:none;">
+            <div class="nowPlaying">
+                <span>now</span>
+                <span>playing</span>
+            </div>
+            <img id="rightHeaderImg" alt="go forward" src="img/arrow-forward-red.png" />
+        </div>
+        <div class="headerButtons rightHeaderButton cancelButton" data-page="2" style="display:none;">X</div>
     </div>
-    
-<div id="wrapper">
-  <div data-role="page" id="home">
-    
-  </div>
-  <div data-role="page" id="playing" style="display:none;">
-    <canvas id="musicCanvas"></canvas>
-    <div class="songContainer">
-      <div class="songTime"> <span class="songStart">00:00:00</span>
-        <input type="range" min="0" max="2" value="0" id="fader" step="1">
-        <span class="songEnd">00:00:00</span> </div>
-      <div class="songInfo">
-        <h1 class="songTitle">&nbsp;</h1>
-        <h2 class="songArtist">&nbsp;</h2>
-      </div>
-      <div class="songControls"> <img data-refa="0" id="rewind" class="rewindFF" src="img/backwards.png" /> <img id="playPause" data-play="0" src="img/play.png" /> <img data-refa="1" id="forward" class="rewindFF" src="img/forward.png" /> </div>
-      <div class="songVolume"> <img data-volume="0" src="img/volume-down.png" />
-        <input type="range" min="0" max="1" value="0.5" id="volume" step="0.1">
-        <img data-volume="1" src="img/volume-up.png" /> </div>
-      <div class="songExtras"> <span class="songRepeat">Repeat</span> <span class="songDelete">Delete</span> </div>
+
+    <div id="wrapper">
+        <div data-role="page" id="home">
+
+        </div>
+        <div data-role="page" id="playing" style="display:none;">
+            <canvas id="musicCanvas"></canvas>
+            <div class="songContainer">
+                <div class="songTime">
+                    <span class="songStart">00:00:00</span>
+                    <input type="range" min="0" max="2" value="0" id="fader" step="1">
+                    <span class="songEnd">00:00:00</span>
+                </div>
+                <div class="songInfo">
+                    <h1 class="songTitle">&nbsp;</h1>
+                    <h2 class="songArtist">&nbsp;</h2>
+                </div>
+                <div class="songControls">
+                    <img data-refa="0" id="rewind" class="rewindFF" src="img/backwards.png" />
+                    <img id="playPause" data-play="0" src="img/play.png" />
+                    <img data-refa="1" id="forward" class="rewindFF" src="img/forward.png" />
+                </div>
+                <div class="songVolume">
+                    <img data-volume="0" src="img/volume-down.png" />
+                    <input type="range" min="0" max="1" value="0.5" id="volume" step="0.1">
+                    <img data-volume="1" src="img/volume-up.png" />
+                </div>
+                <div class="songExtras">
+                    <span class="songRepeat">Repeat</span>
+                    <span class="songDelete">Delete</span>
+                </div>
+            </div>
+        </div>
+        <div data-role="page" id="settings" style="display:none;">
+            <div class="settingsList">
+                <button data-settings="0" class="deleteBtn">Delete All Podcasts</button>
+                <button data-settings="1" class="deleteBtn">Order Podcasts By Episode</button>
+                <button data-settings="2" class="deleteBtn">Order Podcasts By Channel</button>
+                
+                <label for="initialDownloadSelect">Podcasts that will be downloaded on start</label>
+                <select name="initialDownloadSelect" id="initialDownloadSelect" multiple>
+                </select>
+                <button id="addInitialDownload">Add A Podcast To Initial Download</button>
+                <label for="amountOfPodcasts">Amount of latest episodes to download</label>
+                <select name="amountOfPodcasts" id="amountOfPodcasts">
+                </select>
+            </div>
+        </div>
     </div>
-  </div>
-  <div data-role="page" id="settings" style="display:none;">
-    <div class="settingsList">
-    <button data-settings="0" class="deleteBtn">Delete All Podcasts</button>
-    <button data-settings="1" class="deleteBtn">Order Podcasts By Episode</button>
-    <button data-settings="2" class="deleteBtn">Order Podcasts By Channel</button>
+    <div id="footer">
+        <ul>
+            <li>
+                <a data-footer="0" class="footerButtons" href="#">
+                    <span class="tabIcon">
+                        <img data-image="albums" src="img/albums-gray.png" />
+                    </span>
+                    <span class="tabLabel">All</span>
+                </a>
+            </li>
+            <li>
+                <a data-footer="1" class="footerButtons" href="#">
+                    <span class="tabIcon">
+                        <img data-image="songs" src="img/songs-gray.png" />
+                    </span>
+                    <span class="tabLabel">Songs</span>
+                </a>
+            </li>
+
+            <li>
+                <a data-footer="2" class="footerButtons active" href="#">
+                    <span class="tabIcon">
+                        <img data-image="playlists" src="img/playlists-red.png" />
+                    </span>
+                    <span class="tabLabel active">Podcasts</span>
+                </a>
+            </li>
+
+            <li>
+                <a data-footer="3" class="footerButtons" href="#">
+                    <span class="tabIcon">
+                        <img data-image="artists" src="img/artists-gray.png" />
+                    </span>
+                    <span class="tabLabel">Search</span>
+                </a>
+            </li>
+            <li>
+                <a data-footer="4" class="footerButtons" href="#">
+                    <span class="tabIcon">
+                        <img data-image="settings" src="img/settings-gray.png" />
+                    </span>
+                    <span class="tabLabel">Settings</span>
+                </a>
+            </li>
+        </ul>
     </div>
-  </div>
-</div>
-<div id="footer">
-  <ul>
-  <li> <a data-footer="0" class="footerButtons" href="#"> <span class="tabIcon"> <img data-image="albums" src="img/albums-gray.png" /> </span> <span class="tabLabel">All</span> </a> </li>
-    <li> <a data-footer="1" class="footerButtons" href="#"> <span class="tabIcon"> <img data-image="songs" src="img/songs-gray.png" /> </span> <span class="tabLabel">Songs</span> </a> </li> 
-    
-    <li> <a data-footer="2" class="footerButtons active" href="#"> <span class="tabIcon"> <img data-image="playlists" src="img/playlists-red.png" /> </span> <span class="tabLabel active">Podcasts</span> </a> </li>
-    
-    <li> <a data-footer="3" class="footerButtons" href="#"> <span class="tabIcon"> <img data-image="artists" src="img/artists-gray.png" /> </span> <span class="tabLabel">Search</span> </a> </li> 
-    <li> <a data-footer="4" class="footerButtons" href="#"> <span class="tabIcon"> <img data-image="settings" src="img/settings-gray.png" /> </span> <span class="tabLabel">Settings</span> </a> </li>
-  </ul>
-</div>
 </body>
 </html>
