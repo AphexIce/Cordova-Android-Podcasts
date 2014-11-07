@@ -53,6 +53,19 @@ function onDeviceReady() {
 
     touch = detectTouchSupport() ? "touchend" : "click";
 
+    //Polyfill for old browsers
+    if (!String.prototype.startsWith) {
+      Object.defineProperty(String.prototype, 'startsWith', {
+        enumerable: false,
+        configurable: false,
+        writable: false,
+        value: function (searchString, position) {
+          position = position || 0;
+          return this.lastIndexOf(searchString, position) === position;
+        }
+      });
+    }
+
     if (localStorage.getItem("initialPodCheck") === null) {
       window.localStorage.setItem("initialPodCheck", JSON.stringify(initialPodCheck));
     }else {
@@ -675,11 +688,19 @@ function urlPromptCallback(results) {
 
 //CHANGEME
 function urlValidation(url) {
+    //NEW HATE REGEX
+    if(url.startsWith("http://") || url.startsWith("https://")){
+        return true;
+    } else {
+        return false;
+    }
+    /*OLD
     if(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/.test(url)){
         return true;
     } else {
         return false;
     }
+    */
 }
 
 function developerA(a, b) {
@@ -1133,7 +1154,7 @@ function addUrlPromptCallback(results) {
 }
 function badURL () {
     navigator.notification.confirm(
-                'Please Enter a valid URL it must begin with "http" or "https"', // message
+                'Please Enter a valid URL it must begin with "http://" or "https://"', // message
                 doNothing, // callback to invoke with index of button pressed
                 'Traks', // title
                 ['OK'] // buttonLabels
