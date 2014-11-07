@@ -14,11 +14,13 @@ var STORE; //Set onDevice as it uses plugin cordova.file.dataDirectory + "podcas
 var AJAXIMG = '<img src="img/ajax-loader.gif" />';
 var OFFLINEIMG = '<img src="img/no-internet.png" />';
 var NOPODS = '<h2 style="margin-top:5rem; padding: 1rem;">You Currently Have No Podcasts, Use The Search In The Bottom Footer To Add A Podcast</h2>';
-var MAXPODS = 5;  //Amount of latest episodes to give the user a pick of
+var MAXPODS = 15;  //Amount of latest episodes to give the user a pick of
 
 //LocalStorage Variables (can be configured in the settings)
 var initialPodCheck = ["http://feeds.feedburner.com/thrillingadventurehour","http://feeds.feedburner.com/welcometonightvale"];
 var latestAmount = 2;
+var orderBy = 'name_id';
+var ascDesc = 'ASC';
 
 //Stores the info about the pod being downloaded
 var assetURL, picURL, epTitle, pdTitle;
@@ -78,6 +80,18 @@ function onDeviceReady() {
       latestAmount = parseInt(window.localStorage.getItem("latestAmount"));
     }
 
+    if (localStorage.getItem("orderBy") === null) {
+      window.localStorage.setItem("orderBy", orderBy);
+    }else {
+      orderBy = window.localStorage.getItem("orderBy");
+    }
+
+    if (localStorage.getItem("ascDesc") === null) {
+      window.localStorage.setItem("ascDesc", ascDesc);
+    }else {
+      ascDesc = window.localStorage.getItem("ascDesc");
+    }
+
     checkDB();
     STORE = cordova.file.dataDirectory + "podcasts/";
     navigator.splashscreen.hide();
@@ -103,7 +117,7 @@ function onDeviceReady() {
     var playing = document.querySelector('#playing');
     var settings = document.querySelector('#settings');
     playing.style.height = window.innerHeight + "px";
-    settings.style.height = window.innerHeight + "px";
+    //settings.style.height = window.innerHeight + "px";
 
     //If the phone height is less then 450px then we do not want to display the Music Canvas
     if (window.innerHeight < 450) {
@@ -390,16 +404,50 @@ function settingsClicked(ev) {
             'Traks', // title
             ['OK', 'Cancel'] // buttonLabels
         );
-    } else {
-        navigator.notification.confirm(
+    } else if (this.dataset.settings == "1") {
+        orderBy = "episode_text";
+        window.localStorage.setItem("orderBy", orderBy);
+        getDatabaseInfo();
+        settingChangeNotification("by Episode");
+    } else if (this.dataset.settings == "2") {
+        orderBy = "pod_text";
+        window.localStorage.setItem("orderBy", orderBy);
+        getDatabaseInfo();
+        settingChangeNotification("by Channel");
+    } else if (this.dataset.settings == "3") {
+        if (ascDesc == "ASC") {
+            ascDesc = "DESC";
+            window.localStorage.setItem("ascDesc", ascDesc);
+            getDatabaseInfo();
+            settingChangeNotification("starting by Z");
+        }else {
+            ascDesc = "ASC";
+            window.localStorage.setItem("ascDesc", ascDesc);
+            getDatabaseInfo();
+            settingChangeNotification("starting by A");
+        }    
+    } else if (this.dataset.settings == "4"){
+        checkConnection();
+        if (onlineOffline) {appOnline();}
+    }
+
+    /*
+    navigator.notification.confirm(
             'This is a paid feature Upgrade!', // message
             doNothing, // callback to invoke with index of button pressed
             'Traks', // title
             ['OK'] // buttonLabels
         );
-    }
+     */
 }
-
+function settingChangeNotification (changedSetting){
+    navigator.notification.confirm(
+            'Setting has been updated and will now search ' + changedSetting, // message
+            doNothing, // callback to invoke with index of button pressed
+            'Traks', // title
+            ['OK'] // buttonLabels
+        );
+}
 function deletePodDirectory(entry) {
 
     // remove the directory and all it's contents
@@ -765,7 +813,6 @@ function mediaChangeFromPod() {
 
 function settingsChangeFromPod() {
     wrapper.scrollTop = 0;
-    wrapper.style.overflow = "hidden";
     page[0].classList.add('animation-slide-out-up');
     page[2].style.display = "block";
     page[2].classList.add('animation-slide-in-up');
@@ -781,6 +828,7 @@ function settingsChangeFromPod() {
 }
 
 function podChangeFromSettings() {
+    wrapper.scrollTop = 0;
     var tpHolder1 = footerButtons[4].children[0];
     var tpHolder2 = tpHolder1.children[0];
     tpHolder2.src = "img/" + tpHolder2.dataset.image + "-gray.png";
@@ -804,7 +852,6 @@ function podChangeFromSettings() {
         page[2].style.display = "none";
         page[0].classList.remove('animation-slide-in-down');
         page[2].classList.remove('animation-slide-out-down');
-        wrapper.style.overflow = "scroll";
         setHeaderEvents();
     }, 500);
 }
@@ -1032,7 +1079,7 @@ function dropDB(trans) {
 
 function getDatabaseInfo() {
     db.transaction(function(trans) {
-        trans.executeSql('SELECT * FROM podcasts', [],
+        trans.executeSql('SELECT * FROM podcasts ORDER BY ' + orderBy + ' ' + ascDesc, [],
             function(tx, rs) {
                 if (rs.rows.length > 0) {
                     console.log("WE HAVE ROWS");
